@@ -10,9 +10,12 @@ body {
   box-shadow: 5px 5px 15px -5px rgba(0, 0, 0, 0.3);
 }
 #heading {
-  text-align: center;
+  text-align: -webkit-center;
   max-width: 400px;
   margin: 50px auto;
+}
+.logo {
+  width: 200px;
 }
 .item {
   min-height: 60px;

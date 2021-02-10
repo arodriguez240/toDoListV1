@@ -1,32 +1,42 @@
-<%- include("heaader"); -%>
-    
+<%- include("header"); -%>
 
 
-    <div id="heading" class="">
-        <div class="logo">
-            <img src="/images/checklistLogo.png" class="img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}" alt="">
+
+
+
+    <section class="">
+        <div id="heading">
+            <div class="logo pb-4">
+                <img src="images/checklist-pngrepo-com.png" class="logo" alt="">
+            </div>
+            <h1>
+                <%= listTitle %>
+            </h1>
         </div>
-        <h1> <%= listTitle %> </h1>
-    </div>
+        
+        <form class="items" action="/" method="post">
+            <input placeholder="New Item" type="text" name="newItem" autocomplete="off">
+        
+            <button class="btn btn-dark" type="submit" name="list" value=<%=listTitle %> >+</button>
+        </form>
+        
+        <div class="box">
+            <ul>
+        
+                <% for (let count=0; count < newListItems.length; count++) { %>
+                    <div class="item">
+                        <input type="checkbox" name="" id="">
+                        <p>
+                            <%= newListItems[count] %>
+                        </p>
+                    </div>
+                    <% } %>
+        
+            </ul>
+        </div>
+    </section>
 
-    <form class="items" action="/" method="post">
-        <input placeholder="New Item" type="text" name="newItem" autocomplete="off">
     
-        <button class="btn btn-dark" type="submit" name="list" value=<%=listTitle %> >+</button>
-    </form>
-
-    <div class="box">
-        <ul>
-
-            <% for (let count = 0; count < newListItems.length; count++) { %>
-                <div class="item">
-                    <input type="checkbox" name="" id="">
-                    <p> <%= newListItems[count] %> </p>
-                </div>
-            <% } %>
-
-        </ul>
-    </div>
 
 
 <%- include("footer"); -%>
