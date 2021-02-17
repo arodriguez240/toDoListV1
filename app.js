@@ -26,11 +26,17 @@ const item2 = new Item({
 });
 
 const item3 = new Item({
-    name: "<-- Git this to delete an item."
+    name: "<-- Hit this to delete an item."
 });
 
 const defaultItems = [item1, item2, item3];
 
+const listSchema = {
+    name: String,
+    items: [itemsSchema]
+};
+
+const List = mongoose.model("List", listSchema);
 
 // Data Base **END**
 app.set("view engine", "ejs");
@@ -57,6 +63,27 @@ app.get('/', (req,res) => {
     });
 });
 
+app.get("/:customListName", (req,res) => {
+    const customList = req.params.customListName;
+
+    List.findOne({name: customList}, (err, foundList) =>{
+        if (! err){
+            if (!foundList){
+                //Create a new list
+                const list = new List({
+                    name: customList,
+                    items: defaultItems
+                });
+                list.save();
+                res.redirect('/' + customList);
+            } else {
+                // show existing list
+                res.render("list", {listTitle: foundList.name, newListItems: foundList.items})
+            }
+        }
+    });
+});
+
 app.post('/', (req,res) => {
     const itemName = req.body.newItem;
 
@@ -75,12 +102,11 @@ app.post('/delete', (req,res) => {
         if (!err) {
         console.log("Successfully deleted checked item.");
         }
-    })
+    });
+    res.redirect('/');
 });
 
-app.get('/work',(req,res) => { 
-    res.render('list', {listTitle: "Work List", newListItems: workItems});
-});
+
 
 app.post('/work', (req,res) => {
     let item = req.body.newItem;
