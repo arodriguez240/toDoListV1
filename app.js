@@ -65,10 +65,17 @@ app.post('/', (req,res) => {
     });
 
     item.save();
-
     res.redirect('/');
+});
 
-    
+app.post('/delete', (req,res) => {
+    const checkedItemId = req.body.deleteItem;
+
+    Item.findByIdAndRemove(checkedItemId, (err) =>{
+        if (!err) {
+        console.log("Successfully deleted checked item.");
+        }
+    })
 });
 
 app.get('/work',(req,res) => { 

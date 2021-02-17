@@ -24,10 +24,14 @@
 
 
             <% newListItems.forEach((item) =>{ %>
-                <div class="item">
-                    <input type="checkbox" name="" id="">
-                    <p> <%= item.name %> </p>
-                </div>
+                <form action="/delete" method="POST">
+                    <div class="item">
+                        <input type="checkbox" value="<%= item._id %>" onChange="this.form.submit()" name="deleteItem" id="">
+                        <p>
+                            <%= item.name %>
+                        </p>
+                    </div>
+                </form>
             <% }) %>
 
         </div>
