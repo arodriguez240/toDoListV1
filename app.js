@@ -31,13 +31,6 @@ const item3 = new Item({
 
 const defaultItems = [item1, item2, item3];
 
-Item.insertMany(defaultItems, (err) =>{
-    if (err) {
-        console.log(err);
-    }else{
-        console.log("Succefully saved default items to DB");
-    }
-})
 
 // Data Base **END**
 app.set("view engine", "ejs");
@@ -45,7 +38,23 @@ app.set("view engine", "ejs");
 app.get('/', (req,res) => {
 
 
-    res.render("list", {listTitle: "Today", newListItems: items})
+    
+
+    Item.find({}, (err, foundItems) => {
+
+        if(foundItems.length === 0) {
+            Item.insertMany(defaultItems, (err) =>{
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log("Succefully saved default items to DB");
+                }
+            });
+            res.redirect('/');
+        } else {
+            res.render("list", {listTitle: "Today", newListItems: foundItems});
+        }
+    });
 });
 
 app.post('/', (req,res) => {
